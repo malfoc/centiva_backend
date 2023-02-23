@@ -20,7 +20,8 @@ class MemberFactory extends Factory
 
         return [
             'fullname' => fake()->name(),
-            'email' => fake()->unique()->safeEmail()
+            'email' => fake()->unique()->safeEmail(),
+            'team_id' => Team::factory(),
         ];
     }
 }
