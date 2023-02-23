@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Mail\NewMemberNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Mail;
 
 class Member extends Model
 {
@@ -31,6 +33,15 @@ class Member extends Model
     ];
 
     public $timestamps = true;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($member) {
+            Mail::to($member->email)->send(new NewMemberNotification($member));
+        });
+    }
 
     public function team()
     {

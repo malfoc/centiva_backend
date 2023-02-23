@@ -109,3 +109,28 @@ To run tests, run the following command
 ```bash
   php artisan test
 ```
+
+
+## Additional Features
+
+At least one of the following concepts should be used for a project feature demo.
+
+- Events + Listeners
+- Observers
+- Queues
+- Mailables (chosen)
+
+From the project feature in which there is a POST endpoint to register team members, Mailable was taken to send a welcome notification when a user is registered
+
+*Implementation File*: `app/Models/Member.php`
+
+```php
+protected static function boot()
+{
+    parent::boot();
+
+    static::created(function ($member) {
+        Mail::to($member->email)->send(new NewMemberNotification($member));
+    });
+}
+```
